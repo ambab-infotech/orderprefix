@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="admin_system_config_changed_section_prefix_section">
+		<observer instance="Ambab\StoreOrderPrefix\Observer\Backend\Admin\SystemConfigChangedSectionPrefixSection" name="ambab_storeorderprefix_observer_backend_admin_systemconfigchangedsectionprefixsection_admin_system_config_changed_section_prefix_section"/>
+	</event>
+</config>

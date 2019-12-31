@@ -1,0 +1,34 @@
+{
+    "name": "ambab/module-storeorderprefix",
+    "description": "",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "keywords": [
+       "magento 2",
+       "ambab",
+       "Order Prefix",
+       "Store"
+     ],
+    "authors": [
+        {
+         "name": "Ambab",
+         "email": "tech.support@ambab.com",
+         "homepage": "https://www.ambab.com",
+         "role": "Technical Support"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Ambab\\StoreOrderPrefix\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="ambab" sortOrder="999" translate="label">
+			<label>ambab</label>
+		</tab>
+		<section id="prefix_section" showInStore="1" sortOrder="10" translate="label">
+			<label>prefix</label>
+			<tab>ambab</tab>
+			<resource>Ambab_StoreOrderPrefix::config_ambab_storeorderprefix</resource>
+			<group id="general" showInStore="1" sortOrder="10" translate="label">
+				<label>general</label>
+				<field id="enable_module" translate="label" type="select" showInStore="1" canRestore="1">
+        			<label>Enabled</label>
+        			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+    			</field>
+				<field id="override" translate="label" type="select" showInStore="1" canRestore="1">
+        			<label>Override Current Store Prefix and Sequence</label>
+        			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+    			</field>
+				<field id="order_prefix" showInStore="1" sortOrder="10" translate="label" type="text">
+					<label>order_prefix</label>
+					
+				</field>
+				<!-- <field id="order_sequence" showInStore="1" sortOrder="10" translate="label" type="text">
+					<label>order_sequence</label>
+					
+				</field> -->
+			</group>
+		</section>
+	</system>
+</config>
