@@ -2,7 +2,7 @@
     "name": "ambab/module-storeorderprefix",
     "description": "",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "0.0.9",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
