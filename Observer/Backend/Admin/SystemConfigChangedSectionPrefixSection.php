@@ -58,14 +58,14 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
     /**
      * Constructor
      *
-     * @param \Ambab\StoreOrderPrefix\Helper\Data $prefixConfig
-     * @param \Magento\Framework\Message\ManagerInterface $managerInterface
-     * @param \Magento\SalesSequence\Model\Sequence $sequence
-     * @param \Magento\SalesSequence\Model\ResourceModel\MetaFactory $metaFactory
+     * @param \Ambab\StoreOrderPrefix\Helper\Data                       $prefixConfig
+     * @param \Magento\Framework\Message\ManagerInterface               $managerInterface
+     * @param \Magento\SalesSequence\Model\Sequence                     $sequence
+     * @param \Magento\SalesSequence\Model\ResourceModel\MetaFactory    $metaFactory
      * @param \Magento\SalesSequence\Model\ResourceModel\ProfileFactory $profileFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
-     * @param \Magento\Framework\App\Cache\TypeListInterface $typeListInterface
-     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Store\Model\StoreManagerInterface                $storeManagerInterface
+     * @param \Magento\Framework\App\Cache\TypeListInterface            $typeListInterface
+     * @param \Magento\Framework\App\Request\Http                       $request
      */
     public function __construct(
         prefixHelper $prefixConfig,
@@ -90,7 +90,7 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
     /**
      * Execute observer
      *
-     * @param \Magento\Framework\Event\Observer $observer
+     * @param  \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -103,13 +103,14 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
                     $_metaInfo = $this->metaFactory->create();
                     $_metaIds = $this->loadMetaByStore();
                     $_prefix = $this->prefixConfig->getPrefix($_store_Id);
-                    $this->updateProfileByMeta($_metaIds, $_prefix);
-
-                    $this->prefixConfig->updateConfig(self::OVERRIDE, 0, $_store_Id);
                     
-                    $this->typeListInterface->cleanType("config");
-
-                    $this->managerInterface->addSuccess(__("Prefix Updated into the Sequence"));
+                    if (!empty($_prefix)) {
+                        $this->updateProfileByMeta($_metaIds, $_prefix);
+                        $this->prefixConfig->updateConfig(self::OVERRIDE, 0, $_store_Id);
+                        $this->typeListInterface->cleanType("config");
+                        $this->managerInterface->addSuccess(__("Prefix Updated into the Sequence"));
+                    }
+                    
                 } catch (\Exception $e) {
                     $this->managerInterface->addError(__($e->getMessage()));
                 }
@@ -123,7 +124,6 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
     }
 
     /**
-     *
      * Fetch MetaIds of sales sequence module for current store, to update prefix on sales profile
      * table.
      *
@@ -148,11 +148,10 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
     }
 
     /**
-     *
      * Update profile prefix by metaids
      *
-     * @param [] $metaIds metaIds to update profile prefix
-     * @param String $prefix sales sequence prefix to be updated.
+     * @param  []     $metaIds metaIds to update profile prefix
+     * @param  String $prefix  sales sequence prefix to be updated.
      * @return void
      */
     public function updateProfileByMeta($metaIds, $prefix)

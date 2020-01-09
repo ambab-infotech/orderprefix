@@ -9,38 +9,38 @@ use Magento\Store\Model\StoreManagerInterface;
 class Data extends AbstractHelper
 {
 
-    const PREFIX_ENABLED    = 'prefix_section/general/enable_module';
+    const PREFIX_ENABLED    = 'prefix_section/general/enable';
 
     const OVERRIDE    = 'prefix_section/general/override';
 
     const PREFIX    = 'prefix_section/general/order_prefix';
 
-   /**
-    * @var \Magento\Framework\App\Config\ScopeConfigInterface
-    */
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
     protected $scopeConfig;
 
-   /**
-    * @var \Magento\Store\Model\ScopeInterface
-    */
+    /**
+     * @var \Magento\Store\Model\ScopeInterface
+     */
     protected $storeScope;
 
-   /**
-    * @var \Magento\Store\Model\StoreManagerInterface
-    */
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
     protected $storeManagerInterface;
 
-   /**
-    * @var \Magento\Framework\App\Config\Storage\WriterInterface
-    */
+    /**
+     * @var \Magento\Framework\App\Config\Storage\WriterInterface
+     */
     protected $configWriter;
 
-   /**
-    * @param \Magento\Framework\App\Helper\Context $context
-    * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-    * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
-    * @param \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
-    */
+    /**
+     * @param \Magento\Framework\App\Helper\Context                 $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface    $scopeConfig
+     * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Store\Model\StoreManagerInterface            $storeManagerInterface
+     */
 
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -85,7 +85,12 @@ class Data extends AbstractHelper
      */
     public function getPrefix($_store_Id)
     {
-        return $this->scopeConfig->getValue(self::PREFIX, $this->storeScope, $_store_Id);
+        $prefix = $this->scopeConfig->getValue(self::PREFIX, $this->storeScope, $_store_Id);
+        $prefix = trim($prefix);
+        if (strlen($prefix) > 32) {
+            throw new \Magento\Framework\Exception\LocalizedException("Order Prefix: max 32 characters allowed", 1);
+        }
+        return $prefix;
     }
 
     /**
@@ -98,6 +103,7 @@ class Data extends AbstractHelper
 
     /**
      * Update System Configuration on bases on store Id.
+     *
      * @return void
      */
 
