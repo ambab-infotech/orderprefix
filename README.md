@@ -1,55 +1,75 @@
-# Mage2 Module Ambab StoreOrderPrefix
+## Ambab StoreOrderPrefix
 
-    ``ambab/module-storeorderprefix``
+Admin can add the prefixes to an Order ID, Invoice ID, Shipment ID, Credit Memo ID as per the different store views.
 
- - [Main Functionalities](#markdown-header-main-functionalities)
- - [Installation](#markdown-header-installation)
- - [Configuration](#markdown-header-configuration)
- - [Specifications](#markdown-header-specifications)
- - [Attributes](#markdown-header-attributes)
+Prefix can be set in any form numeric, alphanumeric and alphabetic.
 
+## Features
 
-## Main Functionalities
+- Add prefixes to an Order ID, Invoice ID, Shipment ID, Credit Memo ID.
 
+- With admin configuration.
 
-## Installation
-\* = in production please use the `--keep-generated` option
+- 100% open source.
 
-### Type 1: Zip file
-
- - Unzip the zip file in `app/code/Ambab`
- - Enable the module by running `php bin/magento module:enable Ambab_StoreOrderPrefix`
- - Apply database updates by running `php bin/magento setup:upgrade`\*
- - Flush the cache by running `php bin/magento cache:flush`
-
-### Type 2: Composer
-
- - Make the module available in a composer repository for example:
-    - private repository `repo.magento.com`
-    - public repository `packagist.org`
-    - public github repository as vcs
- - Add the composer repository to the configuration by running `composer config repositories.repo.magento.com composer https://repo.magento.com/`
- - Install the module composer by running `composer require ambab/module-storeorderprefix`
- - enable the module by running `php bin/magento module:enable Ambab_StoreOrderPrefix`
- - apply database updates by running `php bin/magento setup:upgrade`\*
- - Flush the cache by running `php bin/magento cache:flush`
+- Easy to install.
 
 
-## Configuration
+## Installation/Uninstallation [Versions supported: 2.3.x onwards]
 
- - enabled (prefix/general/enabled)
+**Steps to install with composer**
 
- - order_prefix (prefix/general/order_prefix)
+- composer require ambab/module-storeorderprefix
 
- - order_sequence (prefix/general/order_sequence)
+- bin/magento module:enable Ambab_StoreOrderPrefix
+
+- bin/magento setup:upgrade
+
+- bin/magento setup:di:compile
+
+- bin/magento cache:flush
+
+**Steps to uninstall a composer installed module**
+
+- bin/magento module:disable Ambab_StoreOrderPrefix
+
+- bin/magento module:uninstall Ambab_StoreOrderPrefix
+
+- composer remove ambab/module-slidingcart
+
+- bin/magento cache:flush
 
 
-## Specifications
+**Steps to install module manually in app/code**
+
+- Add directory to app/code/Ambab/StoreOrderPrefix/ manually
+
+- bin/magento module:enable Ambab_StoreOrderPrefix
+
+- bin/magento setup:upgrade
+
+- bin/magento cache:flush
+
+**Steps to uninstall a manually added module in app/code**
+
+- bin/magento module:disable Ambab_StoreOrderPrefix
+
+- remove directory app/code/Ambab/StoreOrderPrefix manually
+
+- bin/magento setup:upgrade
+
+- bin/magento cache:flush
 
 
+## Configurations
+
+Go to Admin -> Stores -> Configuration -> Ambab -> Store Order Prefix
 
 
-## Attributes
+## Contribute
 
+Feel free to fork and contribute to this module by creating a PR to develop branch.
 
+## Support
 
+Please feel free to reach out at tech.support@ambab.com
