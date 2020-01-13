@@ -15,7 +15,7 @@ Prefix can be set in any form numeric, alphanumeric and alphabetic.
 - Easy to install.
 
 
-## Installation/Uninstallation [Versions supported: 2.3.x onwards]
+## Installation/ Uninstallation [Versions supported: 2.3.x onwards]
 
 **Steps to install with composer**
 
