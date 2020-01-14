@@ -1,14 +1,14 @@
 ## Ambab StoreOrderPrefix
 
-Admin can add the prefixes to an Order ID, Invoice ID, Shipment ID, Credit Memo ID as per the different store views.
+Admin can add the prefixes to an Order ID, Invoice ID, Shipment ID, Credit Memo ID as per the different stores like Country wise store orders can have a different prefix. The admin can set the prefix in any form as it supports numeric, alphanumeric and alphabetic prefixes.
 
-Prefix can be set in any form numeric, alphanumeric and alphabetic.
+Magento default functionality does not allow the admin to edit or change the IDs. Hence it becomes difficult to search and filter the records just by using the numbers.  But, with the help of this Store Order Prefix module, In the backend, the store owner can set the prefixes for order Id, invoice Id, shipment Id, and credit memo. These prefixes can be created for different stores and store views. This extension for Magento 2 will help store owners to filter out the specific ids from a long list of records.
 
 ## Features
 
-- Add prefixes to an Order ID, Invoice ID, Shipment ID, Credit Memo ID.
+- Admin can add custom prefixes for the order IDs, shipment IDs, invoice IDs & shipment IDs.
 
-- With admin configuration.
+- The custom prefix can set in the form of numeric, alphabetic, or alphanumeric.
 
 - 100% open source.
 
@@ -63,13 +63,15 @@ Prefix can be set in any form numeric, alphanumeric and alphabetic.
 
 ## Configurations
 
-Go to Admin -> Stores -> Configuration -> Ambab -> Store Order Prefix
+Go to Admin -> Stores -> Configuration -> **Select store view** -> Ambab -> Store Order Prefix
 
 
 ## Contribute
 
-Feel free to fork and contribute to this module by creating a PR to develop branch.
+Feel free to fork and contribute to this module by creating a PR to master branch (https://github.com/ambab-infotech/orderprefix).
 
 ## Support
 
-Please feel free to reach out at tech.support@ambab.com
+For issues please raise here https://github.com/ambab-infotech/orderprefix/issues
+
+In case of additional support feel free to reach out at tech.support@ambab.com
