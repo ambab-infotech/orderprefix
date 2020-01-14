@@ -6,7 +6,7 @@ Magento default functionality does not allow the admin to edit or change the IDs
 
 ## Features
 
-- Admin can add custom prefixes for the order IDs, shipment IDs, invoice IDs & shipment IDs.
+- Admin can add custom prefixes for the order IDs, shipment IDs, invoice IDs & credit-memo IDs.
 
 - The custom prefix can set in the form of numeric, alphabetic, or alphanumeric.
 
