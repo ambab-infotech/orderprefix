@@ -86,9 +86,9 @@ class Data extends AbstractHelper
     public function getPrefix($_store_Id)
     {
         $prefix = $this->scopeConfig->getValue(self::PREFIX, $this->storeScope, $_store_Id);
-        $prefix = trim($prefix);
+        $prefix = trim((string) $prefix);
         if (strlen($prefix) > 32) {
-            throw new \Magento\Framework\Exception\LocalizedException("Order Prefix: max 32 characters allowed", 1);
+            throw new \Magento\Framework\Exception\LocalizedException(__("Order Prefix: max 32 characters allowed"));
         }
         return $prefix;
     }
@@ -107,8 +107,8 @@ class Data extends AbstractHelper
      * @return void
      */
 
-    public function updateConfig($path, $value, $storeId = 0)
+    public function updateConfig($path, $value, $storeId = 0, $scope = \Magento\Store\Model\ScopeInterface::SCOPE_STORES)
     {
-        $this->configWriter->save($path, $value, $this->storeScope, $storeId);
+        $this->configWriter->save($path, $value, $scope, $storeId);
     }
 }

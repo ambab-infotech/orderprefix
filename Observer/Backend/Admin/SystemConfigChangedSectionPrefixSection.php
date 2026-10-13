@@ -95,31 +95,53 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        
-        $_store_Id = (int) $this->request->getParam('store');
-        if ($this->prefixConfig->isEnabled($_store_Id)) {
-            if ($this->prefixConfig->getOverride($_store_Id)) {
-                try {
-                    $_metaInfo = $this->metaFactory->create();
-                    $_metaIds = $this->loadMetaByStore();
-                    $_prefix = $this->prefixConfig->getPrefix($_store_Id);
-                    
-                    if (!empty($_prefix)) {
-                        $this->updateProfileByMeta($_metaIds, $_prefix);
-                        $this->prefixConfig->updateConfig(self::OVERRIDE, 0, $_store_Id);
-                        $this->typeListInterface->cleanType("config");
-                        $this->managerInterface->addSuccess(__("Prefix Updated into the Sequence"));
-                    }
-                    
-                } catch (\Exception $e) {
-                    $this->managerInterface->addError(__($e->getMessage()));
-                }
-
+        try {
+            // Config save events identify the selected scope, which is not always a store view.
+            $store = $observer->getEvent()->getStore() ?: $this->request->getParam('store');
+            $website = $observer->getEvent()->getWebsite() ?: $this->request->getParam('website');
+            if ($store) {
+                $selectedStore = $this->storeManagerInterface->getStore($store);
+                $stores = [$selectedStore];
+                $scope = \Magento\Store\Model\ScopeInterface::SCOPE_STORES;
+                $scopeId = (int) $selectedStore->getId();
+            } elseif ($website) {
+                $selectedWebsite = $this->storeManagerInterface->getWebsite($website);
+                $stores = $selectedWebsite->getStores();
+                $scope = \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES;
+                $scopeId = (int) $selectedWebsite->getId();
             } else {
-                $this->managerInterface->addError(__("Please allow to override current prefix."));
+                $stores = $this->storeManagerInterface->getStores();
+                $scope = \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
+                $scopeId = 0;
             }
-        } else {
-            $this->managerInterface->addError(__("Please Enabled Prefix Module."));
+            $updates = [];
+            foreach ($stores as $selectedStore) {
+                $storeId = (int) $selectedStore->getId();
+                if (!$storeId || !$this->prefixConfig->isEnabled($storeId)
+                    || !$this->prefixConfig->getOverride($storeId)) {
+                    continue;
+                }
+                $prefix = $this->prefixConfig->getPrefix($storeId);
+                if ($prefix === '') {
+                    throw new \Magento\Framework\Exception\LocalizedException(__('Enter an order prefix before overriding the sequence.'));
+                }
+                $metaIds = $this->loadMetaByStore($storeId);
+                if (!$metaIds) {
+                    throw new \Magento\Framework\Exception\LocalizedException(__('No sales sequence exists for store %1.', $storeId));
+                }
+                $updates[] = [$metaIds, $prefix];
+            }
+            // Validate every target before changing any sequence.
+            foreach ($updates as [$metaIds, $prefix]) {
+                $this->updateProfileByMeta($metaIds, $prefix);
+            }
+            if ($updates) {
+                $this->prefixConfig->updateConfig(self::OVERRIDE, 0, $scopeId, $scope);
+                $this->typeListInterface->cleanType('config');
+                $this->managerInterface->addSuccessMessage(__('Prefix Updated into the Sequence'));
+            }
+        } catch (\Exception $error) {
+            $this->managerInterface->addErrorMessage(__($error->getMessage()));
         }
     }
 
@@ -130,9 +152,9 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
      * @return []
      */
 
-    public function loadMetaByStore()
+    public function loadMetaByStore($storeId = null)
     {
-        $_store_Id = (int) $this->request->getParam('store');
+        $_store_Id = $storeId ?? (int) $this->request->getParam('store');
         $meta = $this->metaFactory->create();
         $connection = $meta->getConnection();
         $bind = ['store_id' => $_store_Id];
@@ -161,7 +183,7 @@ class SystemConfigChangedSectionPrefixSection implements \Magento\Framework\Even
         $profile->getConnection()->update(
             $profile->getConnection()->getTableName($profile->getMainTable()),
             ["prefix" => $prefix],
-            ['meta_id IN (?)' => $metaIds]
+            ['meta_id IN (?)' => $metaIds, 'is_active = ?' => 1]
         );
     }
 }
